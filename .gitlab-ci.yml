@@ -1,0 +1,95 @@
+stages:
+  - build
+  - verify-build
+  - code-quality
+  - deploy
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
+Install-Dependencies:
+  stage: build
+  allow_failure: false
+  script:
+    - npm ci
+  rules:
+    # - if: '$CI_COMMIT_BRANCH == "dev" || $CI_COMMIT_BRANCH == "main"'
+    #   when: on_success
+    # - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "dev" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
+    #   when: on_success
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: on_success
+
+Build-NextJS:
+  stage: build
+  allow_failure: false
+  script:
+    - npm run build
+  dependencies:
+    - Install-Dependencies
+  rules:
+    # - if: '$CI_COMMIT_BRANCH == "dev" || $CI_COMMIT_BRANCH == "main"'
+    #   when: on_success
+    # - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "dev" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
+    #   when: on_success
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: on_success
+
+Run-Tests:
+  stage: verify-build
+  allow_failure: false
+  script:
+    - npm run test
+  dependencies:
+    - Build-NextJS
+  rules:
+    # - if: '$CI_COMMIT_BRANCH == "dev" || $CI_COMMIT_BRANCH == "main"'
+    #   when: on_success
+    # - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "dev" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
+    #   when: on_success
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: on_success
+
+Vulnerability-Scan:
+  stage: verify-build
+  allow_failure: false
+  script:
+    - npm audit --audit-level=moderate
+  dependencies:
+    - Build-NextJS
+  rules:
+    # - if: '$CI_COMMIT_BRANCH == "dev" || $CI_COMMIT_BRANCH == "main"'
+    #   when: on_success
+    # - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "dev" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
+    #   when: on_success
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: on_success
+
+Sonarqube:
+  stage: code-quality
+  allow_failure: false
+  script:
+    - node sonarqube.js
+  dependencies:
+    - Run-Tests
+    - Vulnerability-Scan
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: on_success
+    # - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
+    #   when: on_success
+  retry: 2
+
+Deploy-Prod:
+  stage: deploy
+  image: curlimages/curl:latest
+  allow_failure: false
+  script:
+    - curl -i https://devops.meditamamente.com/api/v1/deploy?uuid=$COOLIFY_APP_ID -H "Authorization:Bearer $COOLIFY_API_TOKEN"
+  dependencies:
+    - Sonarqube
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: on_success

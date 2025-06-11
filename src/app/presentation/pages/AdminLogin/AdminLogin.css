@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
+    
+    .main{
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        height: 45.3125rem !important;
+        overflow: hidden !important;
+        
+    }
+
+    .LogoTitulo{
+        display: flex !important;  
+        flex-direction: column !important;
+        align-items: center !important;
+        margin-bottom: 1.25rem !important;
+        gap: 0.5rem !important;
+    }
+
+    .imagem{
+        width: 9rem !important;
+        height: auto !important;
+    }
+
+    .titulo{
+        color: #5E0F17 !important;
+        width: 477px !important;
+        height: 58px !important;
+        font-size: 58px !important;
+        font-family: 'Poppins', sans-serif !important; 
+        font-weight: 800 !important;
+    }
+
+    .container{
+        background-color: white !important;
+        width: 50.62rem !important;
+        height: 23.125rem !important;
+        border-radius: 32px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 2rem !important;
+        box-shadow: -4px 0 8px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .containerTitulo{
+        color: #5E0F17 !important;
+        margin: 0 !important;
+        font-size: 1.7rem !important;
+        font-family: 'Poppins', sans-serif !important; 
+        font-weight: 700 !important;
+    }
+
+
+    .inputTitulo{
+        color: #5E0F17 !important;
+        font-family: 'Poppins', sans-serif !important; 
+        font-weight: 700 !important;
+    }
+
+    .input{
+        height: 2.8rem !important;
+        width: 46.625rem !important;
+        background-color: #FCEEEA !important;
+        border: 0cap !important;
+        padding-left: 0.75rem !important;
+    }
+
+    .input::placeholder{
+        color: #908B8B !important;
+    }
+
+    .adminLoginFields{
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+        width: 100% !important;
+    }
