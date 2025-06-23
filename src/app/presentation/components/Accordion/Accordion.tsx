@@ -1,3 +1,4 @@
+import React from 'react';
 import { Divider, Stack } from '@mui/material';
 import { AccordionItem } from '../AccordionItem';
 import { IDiaryLogItem } from '../../pages';
@@ -18,7 +19,7 @@ function formateDate(date: Date) {
 
 export const Accordion = ({ diaryEntries }: IAccordionProps) => {
   return (
-    <Stack overflow="auto" borderRadius={'1rem'} marginBottom={'1.5rem'}>
+    <Stack overflow="auto" borderRadius={'1rem'} marginBottom={'1.5rem'} data-testid="accordion-container">
       {diaryEntries.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).map((entry, index) => {
         const isLast = index === diaryEntries.length - 1;
         return (
