@@ -1,3 +1,4 @@
+import React from 'react';
 import { Stack, Typography } from '@mui/material';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import { LargeFab } from './style';
@@ -23,7 +24,7 @@ export const AddDiaryEntry = ({ handleClick }: IAddDiaryEntryProps) => {
   const [text, setText] = useState<string>(); 
 
   return (
-    <Stack margin="1.5rem" gap="0.5rem" overflow={'hidden'}>
+    <Stack margin="1.5rem" gap="0.5rem" overflow={'hidden'} data-testid="add-diary-entry">
       <Stack flexDirection="row" gap="0.5rem">
         <GenericHeading text="Novo " themevariant="dark" />
         <GenericHeading text="registro" themevariant="light" />
