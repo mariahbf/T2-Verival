@@ -1,8 +1,8 @@
 import React from 'react';
-import { customRender } from "../../test-utils";
+import { customRender } from "../../../../../tests/test-utils";
 import { vi } from 'vitest';
 import { act } from '@testing-library/react';
-import { Introducao } from '../../../src/app/presentation/pages/Introducao';
+import { Introducao } from '.';
 
 vi.mock('next/font/google', () => ({
   Poppins: vi.fn(() => ({

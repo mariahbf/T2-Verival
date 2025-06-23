@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { vi } from 'vitest';
-import { GenericButton } from '../../../src/app/presentation/components/Button/GenericButton';
+import { GenericButton } from './GenericButton';
 
 describe('GenericButton Component', () => {
   it('renders the button with the correct text', () => {

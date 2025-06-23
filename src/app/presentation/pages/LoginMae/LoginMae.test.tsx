@@ -1,9 +1,9 @@
 import React from 'react';
-import { customRender } from '../../test-utils';
+import { customRender } from '../../../../../tests/test-utils';
 import { vi } from 'vitest';
-import { LoginMae } from '../../../src/app/presentation/pages/LoginMae/LoginMae';
+import { LoginMae } from './LoginMae';
 import { ThemeProvider } from '@mui/material/styles';
-import theme from '../../../src/theme/theme';
+import theme from '../../../../theme/theme';
 
 vi.mock('next/font/google', () => ({
   Poppins: vi.fn(() => ({
@@ -31,7 +31,8 @@ describe('LoginMae', () => {
       </ThemeProvider>
     );
 
-    expect(screen.getByText(/acalme sua mente/i)).toBeInTheDocument();
+    expect(screen.getByText(/acalme sua/i)).toBeInTheDocument();
+    expect(screen.getByText(/mente/i)).toBeInTheDocument();
     expect(screen.getByText(/nutra/i)).toBeInTheDocument();
     expect(screen.getAllByText(/seu/i)[0]).toBeInTheDocument();
     expect(screen.getByText(/amor/i)).toBeInTheDocument();

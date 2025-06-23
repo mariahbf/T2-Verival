@@ -1,6 +1,6 @@
 import React from 'react';
-import { customRender } from "../../test-utils";
-import { CustomCarousel } from '../../../src/app/presentation/components/Carousel/CustomCarousel';
+import { customRender } from "../../../../../tests/test-utils";
+import { CustomCarousel } from './CustomCarousel';
 import { vi } from 'vitest';
 import { act } from '@testing-library/react';
 import { Typography } from '@mui/material';
