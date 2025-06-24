@@ -103,7 +103,7 @@ const GenericAudioCard: React.FC<GenericAudioCardProps> = ({
     return (
         <Box sx={status}
         onClick={onClick}
-        >
+        role="cell">
             <Box style={{display:'flex',
                         alignItems: 'center',
                         marginBottom: '5px'}}>
