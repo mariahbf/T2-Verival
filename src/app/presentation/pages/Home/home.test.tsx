@@ -23,7 +23,6 @@ vi.mock('next/font/google', () => ({
   })),
 }));
 
-// Mock dependencies
 vi.mock('@/app/session', () => ({
   getLoggedUser: vi.fn(),
   logout: vi.fn(),
@@ -32,7 +31,6 @@ vi.mock('next/navigation', () => ({
   useRouter: vi.fn(),
 }));
 
-// Mock child components to simplify testing
 vi.mock('@/app/presentation/components/AudioList/AudioList', () => ({
   default: (props: any) => <div data-testid="audio-list">AudioList - startDate: {props.startDate}</div>
 }));
@@ -73,16 +71,12 @@ describe('Home Integration', () => {
   it('renders user info, progress bar, AudioList, and handles logout', async () => {
     const {user, screen} = customRender(<Home />);
 
-    // User's name is displayed
     expect(screen.getByText(/Olá, Mariah/i)).toBeInTheDocument();
 
-    // Progress percentage roughly 50% (3 weeks out of 6)
     expect(screen.getByText(/50%/i)).toBeInTheDocument();
 
-    // AudioList component is rendered
     expect(screen.getByTestId('audio-list')).toBeInTheDocument();
 
-    // Logout button exists and functions correctly
     const logoutButton = screen.getByTestId("logout-button");
     expect(logoutButton).toBeInTheDocument();
 

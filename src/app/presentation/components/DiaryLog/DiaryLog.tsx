@@ -1,3 +1,4 @@
+import React from 'react';
 import { Stack, Typography } from '@mui/material';
 import { Accordion } from '../../components/Accordion';
 import AddIcon from '@mui/icons-material/Add';

@@ -1,3 +1,4 @@
+import React from 'react';
 import { Stack } from "@mui/material";
 import { PlayButton } from "../PlayButton";
 import { ReplayButton } from "../ReplayButton";

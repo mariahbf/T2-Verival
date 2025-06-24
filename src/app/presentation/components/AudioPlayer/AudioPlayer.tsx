@@ -4,6 +4,7 @@ import { YouTubePlayer } from "../YoutubePlayer";
 import { ProgressBar } from "../ProgressBar";
 import audioIcon from "../../../../assets/audioIcon.jpg";
 import { PlayerControls } from "../PlayerControls";
+import React from 'react';
 
 export interface IAudioPlayerProps {
     url: string;

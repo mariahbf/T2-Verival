@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box, Stack, Typography } from "@mui/material";
 import { AudioPlayer } from "../../components/AudioPlayer";
 import { Lotus } from "../../components/Lotus";

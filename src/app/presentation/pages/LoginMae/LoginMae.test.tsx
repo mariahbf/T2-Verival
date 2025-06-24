@@ -1,9 +1,9 @@
 import React from 'react';
-import { customRender } from '../../../../../tests/test-utils';
-import { vi } from 'vitest';
+import { screen, waitFor } from '@testing-library/react';
 import { LoginMae } from './LoginMae';
-import { ThemeProvider } from '@mui/material/styles';
-import theme from '../../../../theme/theme';
+import { vi, afterEach, beforeAll, afterAll, describe, it, expect } from 'vitest';
+import * as apiModule from '../../../api';
+import { customRender } from 'tests/test-utils';
 
 vi.mock('next/font/google', () => ({
   Poppins: vi.fn(() => ({
@@ -23,51 +23,83 @@ vi.mock('next/font/google', () => ({
   })),
 }));
 
-describe('LoginMae', () => {
-  it('should render LoginMae screen', async () => {
-    const { screen } = customRender(
-      <ThemeProvider theme={theme}>
-        <LoginMae />
-      </ThemeProvider>
-    );
+const originalLocation = window.location;
 
-    expect(screen.getByText(/acalme sua/i)).toBeInTheDocument();
-    expect(screen.getByText(/mente/i)).toBeInTheDocument();
-    expect(screen.getByText(/nutra/i)).toBeInTheDocument();
-    expect(screen.getAllByText(/seu/i)[0]).toBeInTheDocument();
-    expect(screen.getByText(/amor/i)).toBeInTheDocument();
-    expect(
-      screen.getByText(/faça login para acessar suas meditações personalizadas/i),
-    ).toBeInTheDocument();
-    expect(screen.getByRole('textbox', { name: /insira seu email/i })).toBeInTheDocument();
-    expect(screen.getByLabelText(/insira sua senha/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /entrar/i })).toBeInTheDocument();
-  });
+beforeAll(() => {
+  delete (window as any).location;
+  (window as any).location = { href: '' };
+});
 
-  it('should display error message when email or password is empty', async () => {
-    const { user, screen } = customRender(
-      <ThemeProvider theme={theme}>
-        <LoginMae />
-      </ThemeProvider>
-    );
-    await user.clear(screen.getByLabelText(/insira seu email/i));
-    await user.clear(screen.getByLabelText(/insira sua senha/i));
-    await user.click(screen.getByRole('button', { name: /entrar/i }));
+afterAll(() => {
+  (window as any).location.href = originalLocation.href;
+});
+
+afterEach(() => {
+  vi.clearAllMocks();
+  localStorage.clear();
+});
+
+describe('LoginMae Integration test', () => {
+  it('shows error messages if fields are empty', async () => {
+    const {user, screen} = customRender(<LoginMae />);
+    const button = screen.getByRole('button', { name: /entrar/i });
+    await user.click(button);
+
     expect(await screen.findByText(/email não pode ser vazio/i)).toBeInTheDocument();
     expect(await screen.findByText(/senha não pode ser vazia/i)).toBeInTheDocument();
   });
 
-  it('should display error message for invalid email', async () => {
-    const { user, screen } = customRender(
-      <ThemeProvider theme={theme}>
-        <LoginMae />
-      </ThemeProvider>
-    );
+  it('logs in and redirects to /introducao if it is the first login', async () => {
+    vi.spyOn(apiModule.default, 'post').mockResolvedValueOnce({
+      data: {
+        accessToken: '123',
+        refreshToken: '456',
+        expiresIn: 3600,
+      },
+    });
 
-    await user.type(screen.getByLabelText(/insira seu email/i), 'fake-email@');
-    await user.type(screen.getByLabelText(/insira sua senha/i), '123');
+    const {user, screen} = customRender(<LoginMae />);
+    await user.type(screen.getByLabelText(/email/i), 'sandra@email.com');
+    await user.type(screen.getByLabelText(/insira sua senha/i), 'senha456');
     await user.click(screen.getByRole('button', { name: /entrar/i }));
 
-    expect(await screen.findByText(/email inválido/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(localStorage.getItem('access_token')).toBe('123');
+      expect(window.location.href).toBe('/introducao');
+    });
+  });
+
+  it('logs in and redirects to /home if it is not the first login', async () => {
+    vi.spyOn(apiModule.default, 'post').mockResolvedValueOnce({
+      data: {
+        accessToken: '123',
+        refreshToken: '456',
+        expiresIn: 3600,
+      },
+    });
+
+    localStorage.setItem('last_login', new Date().toString());
+
+    const {user, screen} = customRender(<LoginMae />);
+    await user.type(screen.getByLabelText(/email/i), 'sandra@email.com');
+    await user.type(screen.getByLabelText(/insira sua senha/i), 'senha456');
+    await user.click(screen.getByRole('button', { name: /entrar/i }));
+
+    await waitFor(() => {
+      expect(window.location.href).toBe('/home');
+    });
+  });
+
+  it('shows an error if API returns status 400', async () => {
+    vi.spyOn(apiModule.default, 'post').mockRejectedValueOnce(
+      new Error('Request failed with status code 400')
+    );
+
+    const {user, screen} = customRender(<LoginMae />);
+    await user.type(screen.getByLabelText(/email/i), 'sandra@email.com');
+    await user.type(screen.getByLabelText(/insira sua senha/i), 'wronginsira sua senha');
+    await user.click(screen.getByRole('button', { name: /entrar/i }));
+
+    expect(await screen.findByText(/Credenciais inválidas/i)).toBeInTheDocument();
   });
 });

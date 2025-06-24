@@ -1,3 +1,4 @@
+import React from 'react';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { StyledButton } from "./style";
 
@@ -8,6 +9,6 @@ export interface IReplayButtonProps {
 export const ReplayButton = ({handleClick}:IReplayButtonProps) => {
     
     return( 
-        <StyledButton onClick={handleClick}>{<ReplayIcon sx={{color:'white'}}/>}</StyledButton>
+        <StyledButton aria-label="repetir-button" onClick={handleClick}>{<ReplayIcon sx={{color:'white'}}/>}</StyledButton>
     )
 }
