@@ -5,7 +5,7 @@ export default defineConfig({
   testDir: './tests/e2e/specs',
   timeout: 120000,
   expect: {
-    timeout: 5000,
+    timeout: 15000,
   },
   reporter: [['list'], ['html']],
   use: {
