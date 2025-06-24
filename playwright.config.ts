@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv';
 
 export default defineConfig({
   testDir: './tests/e2e/specs',
@@ -8,7 +9,7 @@ export default defineConfig({
   },
   reporter: [['list'], ['html']],
   use: {
-    baseURL: 'http://localhost:3000',
+    baseURL: process.env.LOCALHOST,
     headless: false,
     viewport: { width: 1280, height: 720 },
     actionTimeout: 10000,
@@ -19,8 +20,8 @@ export default defineConfig({
 
   projects: [
     {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
     },
   ],
 

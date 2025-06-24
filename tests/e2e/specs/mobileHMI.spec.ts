@@ -5,7 +5,7 @@ import {
 } from '../utils/helperFunctions';
 
 test('New user app navigation', async ({ page }) => {
-  await page.goto('http://localhost:3000');
+  await page.goto(process.env.LOCALHOST || 'http://localhost:3000');
 
   await test.step('User login', async () => {
     await expect(page.getByText(/Bem-vinda ao/i)).toBeVisible();
