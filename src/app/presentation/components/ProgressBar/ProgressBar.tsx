@@ -23,7 +23,7 @@ export const ProgressBar = (props: LinearProgressProps & IProgressBarProps) => {
         <Stack gap={'0.5rem'} width={'20rem'} color={theme.palette.secondary[1000]}>
             <LinearProgress variant="determinate" value={progress} color='inherit' {...linearProgressProps} />
             <Stack flexDirection={'row'} justifyContent={'space-between'}>
-                <Typography variant='subtitle2'>{formatTime(timeListened || 0)}</Typography>
+                <Typography data-testid="time-listened" variant='subtitle2'>{formatTime(timeListened || 0)}</Typography>
                 <Typography variant="subtitle2">{formatTime(duration || 0)}</Typography>
             </Stack>
         </Stack>

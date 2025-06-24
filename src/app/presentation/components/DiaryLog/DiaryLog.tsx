@@ -27,7 +27,7 @@ export const DiaryLog = ({ diaryEntries, handleClick, hideAddButton = false }: I
         </Typography>
       </Stack>
       <Accordion diaryEntries={diaryEntries} />
-      {!hideAddButton && <Stack position={'absolute'} bottom={'4rem'} right={'2rem'}>
+      {!hideAddButton && <Stack position={'absolute'} bottom={'4rem'} right={'2rem'} data-testid="add-button">
         <LargeFab onClick={handleClick}>
           <AddIcon sx={{ fontSize: '3.5rem' }} />
         </LargeFab>

@@ -20,6 +20,7 @@ export const GenericCircleButton: React.FC<FlexibleButtonProps> = ({
 }) => {
   return (
     <StyledCircleButton
+    aria-label="Generic Circle Button"
       sx={{
         margin: { margin },
         minWidth: { minWidth },

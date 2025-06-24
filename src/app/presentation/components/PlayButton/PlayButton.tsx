@@ -10,7 +10,7 @@ export interface IPlayButtonProps {
 
 export const PlayButton = ({handleClick, playing}:IPlayButtonProps) => {    
     return(
-        <StyledButton onClick={handleClick}>
+        <StyledButton onClick={handleClick} aria-label='Play Button'>
             {playing?<PauseIcon sx={{color: 'white', height:'2rem'}}/>
             :<PlayArrowIcon sx={{color: 'white', height:'2rem'}}/>}
         </StyledButton>
