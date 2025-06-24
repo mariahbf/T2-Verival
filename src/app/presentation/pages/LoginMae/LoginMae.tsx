@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import { Divider, Stack, Typography } from '@mui/material';
 import ArrowForwardOutlinedIcon from '@mui/icons-material/ArrowForwardOutlined';
@@ -6,7 +7,6 @@ import { Lotus } from '../../components/Lotus/Lotus';
 import { GenericHeading } from '../../components/Heading/GenericHeading';
 import theme from '../../../../theme/theme';
 import api from '../../../api'; 
-import React from 'react';
 
 export const LoginMae = () => {
   const [email, setEmail] = useState('');

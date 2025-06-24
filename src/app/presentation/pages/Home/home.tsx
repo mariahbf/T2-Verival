@@ -1,3 +1,4 @@
+import React from 'react';
 import { logout, User } from '@/app/session';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Box, CircularProgress, Stack, Typography } from '@mui/material';
@@ -154,6 +155,7 @@ export const Home = () => {
           </Typography>
         </Stack>
         <button
+          data-testid="logout-button"
           style={{
             maxHeight: "40px",
             marginTop: "30px",
